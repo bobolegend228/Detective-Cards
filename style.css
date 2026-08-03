@@ -195,19 +195,18 @@ body{background:var(--tg-bg);color:var(--tg-text);font-family:Georgia,'Times New
   position: fixed;
   left: 10px;
   right: 10px;
-  /* sits just below the header, above tab content */
   top: calc(var(--header-h) + 6px);
   z-index: 160;
-  pointer-events: none;         /* never blocks taps */
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  max-height: calc(100dvh - var(--header-h) - var(--hand-h) - var(--tabbar-h) - 20px);
+  max-height: 50vh;
   overflow: hidden;
 }
 
 .log-bubble {
-  background: rgba(21, 18, 15, 0.88);
+  background: rgba(21, 18, 15, 0.90);
   border: 1px solid var(--paper-dark);
   border-left: 3px solid var(--accent);
   border-radius: 8px;
@@ -216,26 +215,19 @@ body{background:var(--tg-bg);color:var(--tg-text);font-family:Georgia,'Times New
   font-size: .72rem;
   line-height: 1.45;
   color: var(--tg-text);
-  backdrop-filter: blur(4px);
-  /* slide in from left, then fade out */
-  animation: bubbleIn .25s ease, bubbleFade .5s ease var(--bubble-hold, 2.8s) forwards;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity .25s ease, transform .25s ease;
   will-change: opacity, transform;
 }
-
-/* event messages get a red left border */
-.log-bubble.is-event {
-  border-left-color: var(--danger);
+.log-bubble.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
-/* item-found gets accent gold */
-.log-bubble.is-item {
-  border-left-color: #c9a227;
+.log-bubble.fading {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity .45s ease, transform .45s ease;
 }
-
-@keyframes bubbleIn {
-  from { opacity: 0; transform: translateX(-12px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes bubbleFade {
-  from { opacity: 1; }
-  to   { opacity: 0; transform: translateX(-8px); }
-}
+.log-bubble.is-event { border-left-color: var(--danger); }
+.log-bubble.is-item  { border-left-color: var(--accent); }

@@ -183,54 +183,64 @@ function newGame(){
 }
 
 /* ---- LOG FEED (bubbles on screen) ---- */
-const _feedQueue   = [];    // pending messages
-let   _feedBusy    = false; // currently showing a bubble
+const _feedQueue = [];
+let   _feedBusy  = false;
+
+function _stripHtml(html){
+  return html
+    .replace(/<span[^>]*class="log-idx"[^>]*>.*?<\/span>/g, '')
+    .replace(/<span[^>]*class="event-tag"[^>]*>[^<]*<\/span>/g, '‼️ ')
+    .replace(/<b>(.*?)<\/b>/gi, '$1')
+    .replace(/<i>(.*?)<\/i>/gi, '$1')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')
+    .replace(/\s+/g,' ').trim();
+}
 
 function _feedNext(){
   if(!_feedQueue.length){ _feedBusy=false; return; }
   _feedBusy=true;
   const {html, isEvent, isItem} = _feedQueue.shift();
-
   const feed=document.getElementById('logFeed');
-  if(!feed){ _feedNext(); return; }
+  if(!feed){ _feedBusy=false; _feedNext(); return; }
 
-  // Strip heavy HTML tags to plain readable text for the bubble
-  const plain=html
-    .replace(/<span[^>]*class="log-idx"[^>]*>.*?<\/span>/g,'')
-    .replace(/<span[^>]*class="event-tag"[^>]*>.*?<\/span>/g,'‼️ ')
-    .replace(/<b>(.*?)<\/b>/g,'$1')
-    .replace(/<i>(.*?)<\/i>/g,'$1')
-    .replace(/<[^>]+>/g,'')
-    .replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')
-    .trim();
+  const text = (()=>{
+    const plain=_stripHtml(html);
+    return plain.length>180 ? plain.slice(0,180)+'…' : plain;
+  })();
+  if(!text){ setTimeout(_feedNext, 50); return; }
 
-  // Only show if not too long (> 180 chars → skip bubble, log still saved)
-  const maxLen=180;
-  const text=plain.length>maxLen ? plain.slice(0,maxLen)+'…' : plain;
+  const holdMs = Math.min(4000, Math.max(2500, text.length*16));
 
-  const holdMs=Math.min(4200, Math.max(2600, text.length*18)); // 2.6–4.2 s
+  const bubble = document.createElement('div');
+  bubble.className = 'log-bubble' + (isEvent?' is-event':'') + (isItem?' is-item':'');
+  bubble.textContent = text;
 
-  const bubble=document.createElement('div');
-  bubble.className='log-bubble'+(isEvent?' is-event':isItem?' is-item':'');
-  bubble.style.setProperty('--bubble-hold', holdMs+'ms');
-  bubble.textContent=text;
-  feed.style.display='flex';
+  feed.style.display = 'flex';
   feed.appendChild(bubble);
 
-  // Remove after animation (In .25s + hold + Fade .5s + small buffer)
-  const totalMs=holdMs+800;
+  // Step 1: trigger slide-in (next frame so transition fires)
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{ bubble.classList.add('visible'); });
+  });
+
+  // Step 2: start fade-out after hold time
   setTimeout(()=>{
-    bubble.remove();
-    if(!feed.children.length) feed.style.display='none';
-    // Small gap between bubbles
-    setTimeout(_feedNext, 120);
-  }, totalMs);
+    bubble.classList.remove('visible');
+    bubble.classList.add('fading');
+    // Step 3: remove element after fade (450ms)
+    setTimeout(()=>{
+      bubble.remove();
+      if(!feed.children.length) feed.style.display='none';
+      setTimeout(_feedNext, 100);
+    }, 480);
+  }, holdMs);
 }
 
 function feedLog(html){
-  const isEvent=html.includes('event-tag');
-  const isItem=html.includes('item_found')||html.includes('🎒');
-  _feedQueue.push({html,isEvent,isItem});
+  const isEvent = html.includes('event-tag');
+  const isItem  = html.includes('🎒') || html.includes('item_found');
+  _feedQueue.push({html, isEvent, isItem});
   if(!_feedBusy) _feedNext();
 }
 
