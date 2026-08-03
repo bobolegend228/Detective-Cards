@@ -182,11 +182,70 @@ function newGame(){
   switchTab('Suspects');renderAll();saveGame();
 }
 
+/* ---- LOG FEED (bubbles on screen) ---- */
+const _feedQueue   = [];    // pending messages
+let   _feedBusy    = false; // currently showing a bubble
+
+function _feedNext(){
+  if(!_feedQueue.length){ _feedBusy=false; return; }
+  _feedBusy=true;
+  const {html, isEvent, isItem} = _feedQueue.shift();
+
+  const feed=document.getElementById('logFeed');
+  if(!feed){ _feedNext(); return; }
+
+  // Strip heavy HTML tags to plain readable text for the bubble
+  const plain=html
+    .replace(/<span[^>]*class="log-idx"[^>]*>.*?<\/span>/g,'')
+    .replace(/<span[^>]*class="event-tag"[^>]*>.*?<\/span>/g,'‼️ ')
+    .replace(/<b>(.*?)<\/b>/g,'$1')
+    .replace(/<i>(.*?)<\/i>/g,'$1')
+    .replace(/<[^>]+>/g,'')
+    .replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')
+    .trim();
+
+  // Only show if not too long (> 180 chars → skip bubble, log still saved)
+  const maxLen=180;
+  const text=plain.length>maxLen ? plain.slice(0,maxLen)+'…' : plain;
+
+  const holdMs=Math.min(4200, Math.max(2600, text.length*18)); // 2.6–4.2 s
+
+  const bubble=document.createElement('div');
+  bubble.className='log-bubble'+(isEvent?' is-event':isItem?' is-item':'');
+  bubble.style.setProperty('--bubble-hold', holdMs+'ms');
+  bubble.textContent=text;
+  feed.style.display='flex';
+  feed.appendChild(bubble);
+
+  // Remove after animation (In .25s + hold + Fade .5s + small buffer)
+  const totalMs=holdMs+800;
+  setTimeout(()=>{
+    bubble.remove();
+    if(!feed.children.length) feed.style.display='none';
+    // Small gap between bubbles
+    setTimeout(_feedNext, 120);
+  }, totalMs);
+}
+
+function feedLog(html){
+  const isEvent=html.includes('event-tag');
+  const isItem=html.includes('item_found')||html.includes('🎒');
+  _feedQueue.push({html,isEvent,isItem});
+  if(!_feedBusy) _feedNext();
+}
+
 /* ---- LOG ---- */
 function addLog(html){
-  state.log.push(html);renderLog();
-  if(activeTab!=='Log'){const b=document.getElementById('tbLog');if(b){b.style.color='var(--accent)';setTimeout(()=>{if(activeTab!=='Log')b.style.color='';},800);}}
+  state.log.push(html);
+  renderLog();
+  feedLog(html);
+  // Flash log tab label if not on Log tab
+  if(activeTab!=='Log'){
+    const b=document.getElementById('tbLog');
+    if(b){b.style.color='var(--accent)';setTimeout(()=>{if(activeTab!=='Log')b.style.color='';},800);}
+  }
 }
+
 function renderLog(){
   const el=document.getElementById('log');if(!el)return;
   el.innerHTML=state.log.map((l,i)=>`<div class="log-entry"><span class="log-idx">№${i+1}</span>${l}</div>`).join('');
