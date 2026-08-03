@@ -2,157 +2,161 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Card Detective</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app" id="app">
 
-  <header class="topbar">
-    <div class="brand">
-      <h1 id="brandTitle">Card Detective</h1>
-      <p class="subtitle" id="brandSubtitle">bureau of secret investigations</p>
+<header class="app-header" id="appHeader">
+  <div class="header-row1">
+    <div class="brand-block">
+      <span class="brand-name" id="brandTitle">Card Detective</span>
       <span class="version-tag" id="versionTag"></span>
     </div>
     <div class="stamp" id="caseStamp">CASE № ---</div>
-    <div class="topbar-actions">
-      <button class="btn btn-ghost btn-icon-only" id="mapBtn">🗺️</button>
-      <button class="btn btn-ghost btn-icon-only" id="rulesBtn">📖</button>
-      <button class="btn btn-ghost btn-icon-only" id="newGameBtn">🗂️</button>
+    <div class="header-btns">
+      <button class="hbtn" id="mapBtn"><img src="images/map.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('🗺️')"></button>
+      <button class="hbtn" id="rulesBtn"><img src="images/rules.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('📖')"></button>
+      <button class="hbtn" id="newGameBtn"><img src="images/folder.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('🗂️')"></button>
     </div>
-  </header>
-
-  <section class="briefing" id="briefing"></section>
+  </div>
+  <div class="briefing" id="briefing"></div>
   <div class="turn-pressure" id="turnPressure"></div>
+</header>
 
-  <main class="board">
-    <section class="suspects" id="suspects"></section>
-    <section class="side">
-      <div class="hand-wrap">
-        <h2 class="panel-title" data-i18n="ui.panel_hand">Your Hand</h2>
-        <div class="hand" id="hand"></div>
-        <div class="deck-info" id="deckInfo"></div>
-      </div>
-      <div class="inventory-wrap">
-        <h2 class="panel-title" data-i18n="ui.panel_inventory">Found Items</h2>
-        <div class="inventory" id="inventory"></div>
-        <div class="inventory-hint" data-i18n="ui.inventory_hint">Items are found with clues. Tap to use.</div>
-      </div>
-      <div class="log-wrap">
-        <h2 class="panel-title" data-i18n="ui.panel_log">Investigation Log</h2>
-        <div class="log" id="log"></div>
-      </div>
-    </section>
-  </main>
+<main class="tab-content">
+  <section class="tab-panel active" id="tabSuspects">
+    <div class="suspects-grid" id="suspects"></div>
+  </section>
+  <section class="tab-panel" id="tabLog">
+    <div class="log" id="log"></div>
+  </section>
+  <section class="tab-panel" id="tabItems">
+    <div class="inventory-full" id="inventoryFull"></div>
+    <p class="inventory-hint" id="invHint"></p>
+  </section>
+</main>
 
-  <footer class="footer">
-    <div class="reputation" id="reputation"></div>
-    <div class="stats" id="stats"></div>
-  </footer>
+<div class="hand-dock">
+  <div class="hand-scroll" id="hand"></div>
+  <div class="deck-info" id="deckInfo"></div>
 </div>
 
-<!-- ═══════════ LANGUAGE MODAL ═══════════ -->
-<div class="modal-overlay" id="langModal">
+<nav class="tab-bar">
+  <button class="tab-btn active" id="tbSuspects" onclick="switchTab('Suspects')">
+    <span class="tab-icon">🕵️</span>
+    <span class="tab-label" data-i18n="ui.tab_suspects">Suspects</span>
+  </button>
+  <button class="tab-btn" id="tbLog" onclick="switchTab('Log')">
+    <span class="tab-icon">📝</span>
+    <span class="tab-label" data-i18n="ui.tab_log">Log</span>
+    <span class="tab-badge hidden" id="logBadge"></span>
+  </button>
+  <button class="tab-btn" id="tbItems" onclick="switchTab('Items')">
+    <span class="tab-icon">🎒</span>
+    <span class="tab-label" data-i18n="ui.tab_items">Items</span>
+    <span class="tab-badge hidden" id="itemsBadge">0</span>
+  </button>
+</nav>
+
+<div class="rep-bar" id="repBar">
+  <span id="repStars"></span>
+  <span id="repStats"></span>
+</div>
+
+<!-- SAVE MODAL -->
+<div class="modal-overlay hidden" id="saveModal">
+  <div class="modal-box">
+    <h3 id="saveTitle">Unsolved Case Found</h3>
+    <p class="mono-sm" id="saveBody">Continue or start new?</p>
+    <div class="modal-actions col">
+      <button class="btn btn-accent" id="saveContinueBtn">Continue</button>
+      <button class="btn btn-ghost"  id="saveNewBtn">New Case</button>
+    </div>
+  </div>
+</div>
+
+<!-- LANGUAGE MODAL -->
+<div class="modal-overlay hidden" id="langModal">
   <div class="modal-box">
     <h3>🌐 Select Language / Язык / Sprache</h3>
     <div class="lang-cards">
-      <div class="lang-card" onclick="setLanguage('ru')">
-        <div class="lang-flag">🇷🇺</div>
-        <div class="lang-name">Русский</div>
-      </div>
-      <div class="lang-card" onclick="setLanguage('en')">
-        <div class="lang-flag">🇬🇧</div>
-        <div class="lang-name">English</div>
-      </div>
-      <div class="lang-card" onclick="setLanguage('de')">
-        <div class="lang-flag">🇩🇪</div>
-        <div class="lang-name">Deutsch</div>
-      </div>
+      <div class="lang-card" onclick="setLanguage('ru')"><div class="lang-flag">🇷🇺</div><div class="lang-name">Русский</div></div>
+      <div class="lang-card" onclick="setLanguage('en')"><div class="lang-flag">🇬🇧</div><div class="lang-name">English</div></div>
+      <div class="lang-card" onclick="setLanguage('de')"><div class="lang-flag">🇩🇪</div><div class="lang-name">Deutsch</div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ DIFFICULTY MODAL ═══════════ -->
+<!-- DIFFICULTY MODAL -->
 <div class="modal-overlay hidden" id="difficultyModal">
   <div class="modal-box">
     <h3 id="diffTitle">New Case</h3>
-    <p class="mono-sm diff-subtitle" id="diffSubtitle">Choose difficulty:</p>
+    <p class="mono-sm" id="diffSubtitle">Choose difficulty:</p>
     <div class="difficulty-cards">
-      <div class="diff-card" data-diff="easy" onclick="startWithDifficulty('easy')">
-        <div class="diff-icon">🎩</div>
-        <div class="diff-name" id="diffEasyName">Rookie</div>
-        <div class="diff-desc" id="diffEasyDesc">30 turns · 4 witnesses</div>
+      <div class="diff-card" onclick="startWithDifficulty('easy')">
+        <div class="diff-icon">🎩</div><div class="diff-name" id="diffEasyName">Rookie</div><div class="diff-desc" id="diffEasyDesc">30 turns</div>
       </div>
-      <div class="diff-card featured" data-diff="normal" onclick="startWithDifficulty('normal')">
-        <div class="diff-icon">🔍</div>
-        <div class="diff-name" id="diffNormalName">Detective</div>
-        <div class="diff-desc" id="diffNormalDesc">22 turns · 3 witnesses</div>
+      <div class="diff-card featured" onclick="startWithDifficulty('normal')">
+        <div class="diff-icon">🔍</div><div class="diff-name" id="diffNormalName">Detective</div><div class="diff-desc" id="diffNormalDesc">22 turns</div>
       </div>
-      <div class="diff-card" data-diff="hard" onclick="startWithDifficulty('hard')">
-        <div class="diff-icon">💀</div>
-        <div class="diff-name" id="diffHardName">Inspector</div>
-        <div class="diff-desc" id="diffHardDesc">16 turns · 2 witnesses</div>
+      <div class="diff-card" onclick="startWithDifficulty('hard')">
+        <div class="diff-icon">💀</div><div class="diff-name" id="diffHardName">Inspector</div><div class="diff-desc" id="diffHardDesc">16 turns</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ ITEM MODAL ═══════════ -->
+<!-- ITEM MODAL -->
 <div class="modal-overlay hidden" id="itemModal">
   <div class="modal-box">
     <button class="modal-close" data-close="itemModal">✕</button>
     <h3 id="itemModalTitle"></h3>
     <p id="itemModalDesc" class="mono-sm"></p>
-    <p class="mono-sm" data-i18n="ui.item_modal_target">Choose whom to use it on:</p>
+    <p class="mono-sm" data-i18n="ui.item_modal_target">Choose target:</p>
     <div id="itemTargetList"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" data-close="itemModal" data-i18n="ui.btn_cancel">Cancel</button>
-    </div>
+    <div class="modal-actions"><button class="btn btn-ghost" data-close="itemModal" data-i18n="ui.btn_cancel">Cancel</button></div>
   </div>
 </div>
 
-<!-- ═══════════ RULES MODAL ═══════════ -->
+<!-- RULES MODAL -->
 <div class="modal-overlay hidden" id="rulesModal">
   <div class="modal-box">
     <button class="modal-close" data-close="rulesModal">✕</button>
     <h3 id="rulesTitle">How to Play</h3>
     <div class="rules-list" id="rulesList"></div>
-    <div class="modal-actions">
-      <button class="btn btn-accent" data-close="rulesModal" id="rulesOkBtn">Got it</button>
-    </div>
+    <div class="modal-actions"><button class="btn btn-accent" data-close="rulesModal" id="rulesOkBtn">Got it</button></div>
   </div>
 </div>
 
-<!-- ═══════════ ACCUSE MODAL ═══════════ -->
+<!-- ACCUSE MODAL -->
 <div class="modal-overlay hidden" id="accuseModal">
   <div class="modal-box">
     <button class="modal-close" data-close="accuseModal">✕</button>
     <h3 id="accuseModalTitle">Who is the murderer?</h3>
-    <p class="mono-sm" id="accuseModalHint">Choose carefully.</p>
+    <p class="mono-sm" id="accuseModalHint"></p>
     <div id="accuseList"></div>
     <div class="modal-actions">
-      <button class="btn btn-ghost" data-close="accuseModal" id="accuseCancelBtn">Cancel</button>
-      <button class="btn btn-accent" id="confirmAccuseBtn" disabled id="accuseConfirmBtn">Accuse</button>
+      <button class="btn btn-ghost" data-close="accuseModal" data-i18n="ui.btn_cancel">Cancel</button>
+      <button class="btn btn-accent" id="confirmAccuseBtn" disabled data-i18n="ui.btn_confirm_accuse">Accuse</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ RESULT MODAL ═══════════ -->
+<!-- RESULT MODAL -->
 <div class="modal-overlay hidden" id="resultModal">
   <div class="modal-box" id="resultBox"></div>
 </div>
 
-<!-- ═══════════ MAP MODAL ═══════════ -->
+<!-- MAP MODAL -->
 <div class="modal-overlay hidden" id="mapModal">
   <div class="modal-box wide">
     <button class="modal-close" data-close="mapModal">✕</button>
     <h3 id="mapModalTitle">Floor Plan</h3>
     <div id="mapBody"></div>
-    <div class="modal-actions">
-      <button class="btn btn-accent" data-close="mapModal" id="mapCloseBtn">Close</button>
-    </div>
+    <div class="modal-actions"><button class="btn btn-accent" data-close="mapModal" id="mapCloseBtn">Close</button></div>
   </div>
 </div>
 

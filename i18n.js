@@ -704,3 +704,8 @@ function t(lang, key, vars){
 function gv(lang, suspect){
   return GENDER_VARS[lang]?.[suspect.g] || GENDER_VARS.en.м;
 }
+
+/* ---------- beta 5.0 additions ---------- */
+I18N.ru.ui.save_continue='Продолжить дело';I18N.ru.ui.save_new='Новое дело';I18N.ru.ui.save_title='📂 Найдено незакрытое дело';I18N.ru.ui.save_body='Хотите продолжить расследование или начать новое?';I18N.ru.ui.tab_suspects='Подозреваемые';I18N.ru.ui.tab_log='Журнал';I18N.ru.ui.tab_items='Предметы';I18N.ru.ui.inventory_hint='Предметы попадаются с уликами. Нажмите, чтобы применить.';
+I18N.en.ui.save_continue='Continue Case';I18N.en.ui.save_new='New Case';I18N.en.ui.save_title='📂 Unsolved Case Found';I18N.en.ui.save_body='Continue the investigation or start a new case?';I18N.en.ui.tab_suspects='Suspects';I18N.en.ui.tab_log='Log';I18N.en.ui.tab_items='Items';I18N.en.ui.inventory_hint='Items appear when searching for clues. Tap to use.';
+I18N.de.ui.save_continue='Fall fortsetzen';I18N.de.ui.save_new='Neuer Fall';I18N.de.ui.save_title='📂 Offener Fall gefunden';I18N.de.ui.save_body='Ermittlung fortsetzen oder neuen Fall beginnen?';I18N.de.ui.tab_suspects='Verdächtige';I18N.de.ui.tab_log='Protokoll';I18N.de.ui.tab_items='Gegenstände';I18N.de.ui.inventory_hint='Gegenstände erscheinen beim Suchen nach Hinweisen. Tippen zum Verwenden.';
