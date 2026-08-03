@@ -218,8 +218,25 @@ function getItemDefs(){
   ];
 }
 
+function showItemToast(item){
+  document.querySelectorAll('.item-toast').forEach(el=>el.remove());
+  const label = state.lang==='de'?'im Tab Gegenstände':state.lang==='en'?'check Items tab':'во вкладке Предметы';
+  const toast=document.createElement('div');
+  toast.className='item-toast';
+  toast.innerHTML=`<span class="t-icon">${item.icon}</span><span class="t-text">🎒 <b>${T(item.nameKey)}</b> — ${label}</span>`;
+  document.body.appendChild(toast);
+  const btn=document.getElementById('tbItems');
+  if(btn){btn.classList.remove('flash-anim');void btn.offsetWidth;btn.classList.add('flash-anim');setTimeout(()=>btn.classList.remove('flash-anim'),2000);}
+  setTimeout(()=>toast.remove(),2700);
+}
+
 function tryDropItem(){
-  if(Math.random()>0.28)return;
+  // Count how many evidence cards have been played total
+  const evidencePlayed=state.suspects.reduce((acc,s)=>acc+s.evIndex,0);
+  // Guarantee first item within first 3 evidence plays if inventory empty
+  const forceFirst=evidencePlayed<=3&&state.inventory.length===0;
+  const dropChance=forceFirst?0.75:0.45;
+  if(Math.random()>dropChance)return;
   const defs=getItemDefs();
   const avail=defs.filter(def=>!state.inventory.find(it=>it.type===def.type&&!it.used));
   if(!avail.length)return;
@@ -227,6 +244,7 @@ function tryDropItem(){
   const item={id:state.itemUid++,type:def.type,icon:def.icon,nameKey:def.nameKey,descKey:def.descKey,apply:def.apply,used:false};
   state.inventory.push(item);
   addLog(T('msg.item_found',{icon:def.icon,name:T(def.nameKey)}));
+  showItemToast(item);
   updateItemsBadge();
 }
 
