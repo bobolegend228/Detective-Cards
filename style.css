@@ -157,3 +157,85 @@ body{background:var(--tg-bg);color:var(--tg-text);font-family:Georgia,'Times New
 .map-legend .lg-item{display:flex;align-items:center;gap:4px;}
 .map-legend .lg-dot{width:9px;height:9px;border-radius:50%;display:inline-block;border:1.5px solid var(--ink);}
 #itemTargetList label{display:block;padding:9px 11px;border:1px solid var(--paper-dark);border-radius:6px;margin-bottom:7px;cursor:pointer;font-family:'Courier New',monospace;font-size:.82rem;}
+
+/* ---- ITEM DROP TOAST ---- */
+.item-toast {
+  position: fixed;
+  bottom: calc(var(--tabbar-h) + var(--hand-h) + var(--safe-bottom) + 10px);
+  left: 50%; transform: translateX(-50%);
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: .78rem;
+  white-space: nowrap;
+  z-index: 300;
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+  animation: toastIn .3s ease, toastOut .4s ease 2.2s forwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+.item-toast .t-icon { font-size: 1.4rem; }
+.item-toast .t-text b { color: var(--accent); }
+@keyframes toastIn  { from { opacity:0; transform:translateX(-50%) translateY(14px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+@keyframes toastOut { from { opacity:1; } to { opacity:0; transform:translateX(-50%) translateY(-8px); } }
+
+/* ---- ITEMS TAB FLASH ---- */
+@keyframes tabFlash { 0%,100%{color:var(--tg-hint)} 25%,75%{color:var(--accent)} 50%{color:#fff} }
+.tab-btn.flash-anim { animation: tabFlash .6s ease 3; }
+
+/* ======================================================
+   LOG FEED — temporary entry overlay on the main screen
+   ====================================================== */
+.log-feed {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  /* sits just below the header, above tab content */
+  top: calc(var(--header-h) + 6px);
+  z-index: 160;
+  pointer-events: none;         /* never blocks taps */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: calc(100dvh - var(--header-h) - var(--hand-h) - var(--tabbar-h) - 20px);
+  overflow: hidden;
+}
+
+.log-bubble {
+  background: rgba(21, 18, 15, 0.88);
+  border: 1px solid var(--paper-dark);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  line-height: 1.45;
+  color: var(--tg-text);
+  backdrop-filter: blur(4px);
+  /* slide in from left, then fade out */
+  animation: bubbleIn .25s ease, bubbleFade .5s ease var(--bubble-hold, 2.8s) forwards;
+  will-change: opacity, transform;
+}
+
+/* event messages get a red left border */
+.log-bubble.is-event {
+  border-left-color: var(--danger);
+}
+/* item-found gets accent gold */
+.log-bubble.is-item {
+  border-left-color: #c9a227;
+}
+
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes bubbleFade {
+  from { opacity: 1; }
+  to   { opacity: 0; transform: translateX(-8px); }
+}
