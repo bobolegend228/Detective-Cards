@@ -1,4 +1,5 @@
 🕵️ Card Detective — Telegram Mini App
+
 File Structure
 detective-cards-tg/
 ├── index.html      ← main game page
@@ -13,6 +14,7 @@ detective-cards-tg/
 │   ├── vision.png
 │   └── lie.png
 └── README.md
+
 Step 1 — Deploy to GitHub Pages (Free)
 Go to GitHub → Create a new repository
 Name the repository, for example: detective-cards
