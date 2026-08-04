@@ -2,6 +2,7 @@
 
 File Structure
 detective-cards-tg/
+
 ├── index.html      ← main game page
 
 ├── style.css       ← styles (mobile + Telegram theme)
