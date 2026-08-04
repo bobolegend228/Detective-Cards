@@ -99,7 +99,12 @@ body{background:var(--tg-bg);color:var(--tg-text);font-family:Georgia,'Times New
 .tab-btn{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:3px 0;color:var(--tg-hint);transition:color .14s;touch-action:manipulation;position:relative;}
 .tab-btn.active{color:var(--accent);}
 .tab-btn:active{color:var(--paper);}
-.tab-icon{font-size:1.25rem;}
+.tab-icon{
+    width:24px;
+    height:24px;
+    object-fit:contain;
+    display:block;
+}
 .tab-label{font-family:'Courier New',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;}
 .tab-badge{position:absolute;top:5px;right:calc(50% - 22px);background:var(--danger);color:#fff;font-size:.55rem;font-family:'Courier New',monospace;font-weight:bold;border-radius:8px;padding:1px 5px;}
 .tab-badge.hidden{display:none;}
