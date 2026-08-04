@@ -9,6 +9,7 @@ detective-cards-tg/
 ├── script.js       ← all game logic + Telegram WebApp SDK
 
 ├── images/         ← folder containing your icons (copy them from the original)
+
 │   ├── background.jpg
 
 │   ├── map.png
