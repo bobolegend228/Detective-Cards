@@ -1,13 +1,10 @@
-# 🕵️ Карточный детектив — Telegram Mini App
-
-## Структура файлов
-
-```
+🕵️ Card Detective — Telegram Mini App
+File Structure
 detective-cards-tg/
-├── index.html      ← главная страница игры
-├── style.css       ← стили (мобильные + Telegram тема)
-├── script.js       ← вся логика игры + TG WebApp SDK
-├── images/         ← папка с твоими иконками (скопируй из оригинала)
+├── index.html      ← main game page
+├── style.css       ← styles (mobile + Telegram theme)
+├── script.js       ← all game logic + Telegram WebApp SDK
+├── images/         ← folder containing your icons (copy them from the original)
 │   ├── background.jpg
 │   ├── map.png
 │   ├── magnifying-glass.png
@@ -16,101 +13,82 @@ detective-cards-tg/
 │   ├── vision.png
 │   └── lie.png
 └── README.md
-```
+Step 1 — Deploy to GitHub Pages (Free)
+Go to GitHub → Create a new repository
+Name the repository, for example: detective-cards
+Make it Public
+Upload all files (index.html, style.css, script.js, and the images/ folder)
+Go to Settings → Pages
+Under Source, select Deploy from a branch → main → / (root)
 
----
+Within a minute, your game will be available at:
 
-## Шаг 1 — Залей на GitHub Pages (бесплатно)
+https://YOUR_USERNAME.github.io/detective-cards/
 
-1. Зайди на [github.com](https://github.com) → Create new repository
-2. Назови репозиторий, например: `detective-cards`
-3. Сделай его **Public**
-4. Загрузи все файлы (`index.html`, `style.css`, `script.js`, папку `images/`)
-5. Зайди в **Settings → Pages**
-6. В Source выбери **Deploy from a branch → main → / (root)**
-7. Через минуту игра будет доступна по адресу:
-   ```
-   https://ИМЯ_ПОЛЬЗОВАТЕЛЯ.github.io/detective-cards/
-   ```
-   Запомни этот URL — он понадобится на шаге 3.
+Save this URL—you'll need it in Step 3.
 
-> **Альтернативы GitHub Pages:** Netlify (netlify.com) или Vercel (vercel.com) — 
-> просто перетащи папку, получишь HTTPS-ссылку за 30 секунд.
+Alternatives to GitHub Pages: Netlify or Vercel. Simply drag and drop your project folder to get an HTTPS URL in about 30 seconds.
 
----
+Step 2 — Create a Bot with @BotFather
+Open Telegram and search for @BotFather
 
-## Шаг 2 — Создай бота через @BotFather
+Send the command:
 
-1. Открой Telegram → найди **@BotFather**
-2. Напиши `/newbot`
-3. Придумай имя (например: `Карточный детектив`) и username (например: `detective_cards_bot`)
-4. BotFather выдаст **токен** — сохрани его, но держи в секрете
+/newbot
+Choose a bot name (for example: Card Detective) and a username (for example: detective_cards_bot)
+BotFather will provide a bot token. Save it and keep it secret.
+Step 3 — Connect the Mini App to Your Bot
 
----
+In your chat with @BotFather, send:
 
-## Шаг 3 — Привяжи Mini App к боту
-
-В чате с @BotFather:
-
-```
 /newapp
-```
 
-BotFather спросит:
-- Выбери бота → выбери своего
-- Title → `Карточный детектив`
-- Description → `Раскрой преступление за 30 ходов`
-- Photo → загрузи любую картинку 640×360
-- GIF → можно пропустить (`/empty`)
-- Web App URL → вставь ссылку с GitHub Pages:
-  `https://ИМЯ.github.io/detective-cards/`
+BotFather will ask for:
 
-После этого Mini App готов!
+Select your bot
+Title → Card Detective
+Description → Solve the crime in 30 turns
+Photo → Upload any 640×360 image
+GIF → Skip by sending /empty
 
----
+Web App URL → Paste your GitHub Pages URL:
 
-## Шаг 4 — Добавь кнопку меню в бота (опционально)
+https://YOUR_USERNAME.github.io/detective-cards/
 
-Чтобы в боте была кнопка для запуска игры:
+Your Mini App is now ready!
 
-```
+Step 4 — Add a Menu Button to the Bot (Optional)
+
+To add a button that launches the game:
+
 /setmenubutton
-```
+Select your bot
+Enter the game URL
 
-- Выбери бота
-- Введи URL игры
-- Введи текст кнопки: `🕵️ Играть`
+Enter the button text:
 
----
+🕵️ Play
+Step 5 — Launch and Test
+Find your bot in Telegram.
 
-## Шаг 5 — Запусти и проверь
+Tap the menu button or send:
 
-1. Найди своего бота в Telegram
-2. Нажми кнопку меню или напиши `/start`
-3. Нажми кнопку «🕵️ Играть»
+/start
+Tap 🕵️ Play.
 
-Игра откроется прямо внутри Telegram!
+The game will open directly inside Telegram!
 
----
-
-## Что работает в Telegram
-
-| Функция | Статус |
-|---------|--------|
-| Развёртывание на весь экран | ✅ |
-| Telegram тема (тёмная/светлая) | ✅ |
-| Кнопка «Предъявить обвинение» — нативная TG MainButton | ✅ |
-| Haptic feedback (вибрация на iOS/Android) | ✅ |
-| Подтверждение при случайном закрытии | ✅ |
-| Safe area (выемка/домашний индикатор) | ✅ |
-| Работает в браузере как обычный сайт | ✅ |
-
----
-
-## Версии
-
-| Версия | Изменения |
-|--------|-----------|
-| beta 1.0 | Свидетели, иностранные имена, события, карта |
-| beta 2.0 | 6 подозреваемых, совпадающие инициалы, SVG-карта, расстояния |
-| beta 3.0 | Сложность, лимит ходов, инвентарь, Telegram Mini App |
+Telegram Features
+Feature	Status
+Full-screen mode	✅
+Telegram theme (light/dark)	✅
+Native Telegram MainButton ("Make an Accusation")	✅
+Haptic feedback (iOS/Android)	✅
+Confirmation before accidental exit	✅
+Safe area support (notch/home indicator)	✅
+Works in a regular web browser	✅
+Versions
+Version	Changes
+beta 1.0	Witnesses, foreign names, events, map
+beta 2.0	6 suspects, matching initials, SVG map, distance calculations
+beta 3.0	Difficulty levels, turn limit, inventory, Telegram Mini App
