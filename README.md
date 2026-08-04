@@ -3,17 +3,28 @@
 File Structure
 detective-cards-tg/
 ├── index.html      ← main game page
+
 ├── style.css       ← styles (mobile + Telegram theme)
+
 ├── script.js       ← all game logic + Telegram WebApp SDK
+
 ├── images/         ← folder containing your icons (copy them from the original)
 │   ├── background.jpg
+
 │   ├── map.png
+
 │   ├── magnifying-glass.png
+
 │   ├── human.png
+
 │   ├── alibi.png
+
 │   ├── vision.png
+
 │   └── lie.png
+
 └── README.md
+
 
 Step 1 — Deploy to GitHub Pages (Free)
 Go to GitHub → Create a new repository
