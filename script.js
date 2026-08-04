@@ -202,15 +202,20 @@ function _feedNext(){
   _feedBusy=true;
   const {html, isEvent, isItem} = _feedQueue.shift();
   const feed=document.getElementById('logFeed');
-  if(!feed){ _feedBusy=false; _feedNext(); return; }
+  if(!feed){ _feedBusy=false; setTimeout(_feedNext,50); return; }
+
+  // Position below real header height every time (works on both mobile & desktop)
+  const header=document.getElementById('appHeader');
+  const headerBottom = header ? header.getBoundingClientRect().bottom : 130;
+  feed.style.top = (headerBottom + 6) + 'px';
 
   const text = (()=>{
     const plain=_stripHtml(html);
-    return plain.length>180 ? plain.slice(0,180)+'…' : plain;
+    return plain.length>200 ? plain.slice(0,200)+'…' : plain;
   })();
-  if(!text){ setTimeout(_feedNext, 50); return; }
+  if(!text){ _feedBusy=false; setTimeout(_feedNext,50); return; }
 
-  const holdMs = Math.min(4000, Math.max(2500, text.length*16));
+  const holdMs = Math.min(4500, Math.max(2800, text.length*17));
 
   const bubble = document.createElement('div');
   bubble.className = 'log-bubble' + (isEvent?' is-event':'') + (isItem?' is-item':'');
@@ -219,20 +224,20 @@ function _feedNext(){
   feed.style.display = 'flex';
   feed.appendChild(bubble);
 
-  // Step 1: trigger slide-in (next frame so transition fires)
+  // Two rAF so the browser paints the element before adding .visible
   requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{ bubble.classList.add('visible'); });
+    requestAnimationFrame(()=>{
+      bubble.classList.add('visible');
+    });
   });
 
-  // Step 2: start fade-out after hold time
   setTimeout(()=>{
     bubble.classList.remove('visible');
     bubble.classList.add('fading');
-    // Step 3: remove element after fade (450ms)
     setTimeout(()=>{
       bubble.remove();
       if(!feed.children.length) feed.style.display='none';
-      setTimeout(_feedNext, 100);
+      setTimeout(_feedNext, 120);
     }, 480);
   }, holdMs);
 }
@@ -511,6 +516,8 @@ function renderRepBar(){
   const rs=document.getElementById('repStars');if(rs)rs.textContent=T('ui.reputation_label',{stars});
   const st=document.getElementById('repStats');if(st)st.textContent=T('ui.stats_label',{played:state.cardsPlayed,witnesses:state.witnessPoolLeft});
   if(TG?.MainButton){state.gameOver?TG.MainButton.hide():TG.MainButton.show();}
+  const db=document.getElementById('desktopAccuseBtn');
+  if(db){db.textContent=T('ui.btn_accuse');db.style.display=state.gameOver?'none':'';}
 }
 
 function renderAllModalsText(){
@@ -632,6 +639,16 @@ if(TG?.MainButton){
   TG.MainButton.setParams({color:'#c9a227',text_color:'#1a1306'});
   TG.MainButton.onClick(()=>{haptic.medium();openAccuseModal();});
   TG.MainButton.hide();
+} else {
+  // Desktop fallback — add accuse button above hand dock
+  const dock=document.querySelector('.hand-dock');
+  if(dock){
+    const btn=document.createElement('button');
+    btn.id='desktopAccuseBtn';
+    btn.className='btn btn-accent desktop-accuse';
+    btn.onclick=openAccuseModal;
+    dock.parentNode.insertBefore(btn,dock);
+  }
 }
 
 // STARTUP
