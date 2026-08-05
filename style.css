@@ -98,10 +98,19 @@ body{background:var(--tg-bg);color:var(--tg-text);font-family:Georgia,'Times New
 
 /* TAB BAR */
 .tab-bar{position:fixed;bottom:0;left:0;right:0;height:calc(var(--tabbar-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom);background:var(--tg-bg);border-top:2px solid var(--paper-dark);display:flex;z-index:50;}
-.tab-btn{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:3px 0;color:var(--tg-hint);transition:color .14s;touch-action:manipulation;position:relative;}
+.tab-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
 .tab-btn.active{color:var(--accent);}
 .tab-btn:active{color:var(--paper);}
-.tab-icon{font-size:1.25rem;}
+.tab-icon {
+    width: 28px;
+    height: 28px;
+}
 .tab-label{font-family:'Courier New',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;}
 .tab-badge{position:absolute;top:5px;right:calc(50% - 22px);background:var(--danger);color:#fff;font-size:.55rem;font-family:'Courier New',monospace;font-weight:bold;border-radius:8px;padding:1px 5px;}
 .tab-badge.hidden{display:none;}
@@ -143,7 +152,13 @@ body{background:var(--tg-bg);color:var(--tg-text);font-family:Georgia,'Times New
 .diff-card{flex:1;background:#f2e8cf;border:2px solid var(--paper-dark);border-radius:10px;padding:13px 9px;text-align:center;cursor:pointer;color:var(--ink);touch-action:manipulation;transition:transform .12s;}
 .diff-card:active{transform:scale(.96);}
 .diff-card.featured{border-color:var(--accent);}
-.diff-icon{font-size:1.7rem;margin-bottom:4px;}
+.diff-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 12px;
+}
 .diff-name{font-weight:bold;font-size:.84rem;font-family:Georgia,serif;text-transform:uppercase;margin-bottom:3px;}
 .diff-desc{font-family:'Courier New',monospace;font-size:.66rem;color:#5a4d33;line-height:1.32;}
 

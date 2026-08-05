@@ -49,16 +49,18 @@
 
 <nav class="tab-bar">
   <button class="tab-btn active" id="tbSuspects" onclick="switchTab('Suspects')">
-    <span class="tab-icon">🕵️</span>
+    <img class="tab-icon" src="images/suspects.png" alt="Suspects">
     <span class="tab-label" data-i18n="ui.tab_suspects">Suspects</span>
   </button>
+
   <button class="tab-btn" id="tbLog" onclick="switchTab('Log')">
-    <span class="tab-icon">📝</span>
+    <img class="tab-icon" src="images/log.png" alt="Log">
     <span class="tab-label" data-i18n="ui.tab_log">Log</span>
     <span class="tab-badge hidden" id="logBadge"></span>
   </button>
+
   <button class="tab-btn" id="tbItems" onclick="switchTab('Items')">
-    <span class="tab-icon">🎒</span>
+    <img class="tab-icon" src="images/items.png" alt="Items">
     <span class="tab-label" data-i18n="ui.tab_items">Items</span>
     <span class="tab-badge hidden" id="itemsBadge">0</span>
   </button>
@@ -98,20 +100,28 @@
   <div class="modal-box">
     <h3 id="diffTitle">New Case</h3>
     <p class="mono-sm" id="diffSubtitle">Choose difficulty:</p>
+
     <div class="difficulty-cards">
       <div class="diff-card" onclick="startWithDifficulty('easy')">
-        <div class="diff-icon">🎩</div><div class="diff-name" id="diffEasyName">Rookie</div><div class="diff-desc" id="diffEasyDesc">30 turns</div>
+        <img class="diff-icon" src="images/icons/had.png" alt="Rookie">
+        <div class="diff-name" id="diffEasyName">Rookie</div>
+        <div class="diff-desc" id="diffEasyDesc">30 turns</div>
       </div>
+
       <div class="diff-card featured" onclick="startWithDifficulty('normal')">
-        <div class="diff-icon">🔍</div><div class="diff-name" id="diffNormalName">Detective</div><div class="diff-desc" id="diffNormalDesc">22 turns</div>
+        <img class="diff-icon" src="images/icons/detective.png" alt="Detective">
+        <div class="diff-name" id="diffNormalName">Detective</div>
+        <div class="diff-desc" id="diffNormalDesc">22 turns</div>
       </div>
+
       <div class="diff-card" onclick="startWithDifficulty('hard')">
-        <div class="diff-icon">💀</div><div class="diff-name" id="diffHardName">Inspector</div><div class="diff-desc" id="diffHardDesc">16 turns</div>
+        <img class="diff-icon" src="images/icons/stick.png" alt="Inspector">
+        <div class="diff-name" id="diffHardName">Inspector</div>
+        <div class="diff-desc" id="diffHardDesc">16 turns</div>
       </div>
     </div>
   </div>
 </div>
-
 <!-- ITEM MODAL -->
 <div class="modal-overlay hidden" id="itemModal">
   <div class="modal-box">
