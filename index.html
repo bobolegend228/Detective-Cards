@@ -9,69 +9,122 @@
 </head>
 <body>
 
-<header class="app-header" id="appHeader">
-  <div class="header-row1">
-    <div class="brand-block">
-      <span class="brand-name" id="brandTitle">Card Detective</span>
-      <span class="version-tag" id="versionTag"></span>
+<!-- ═══ START MENU ═══ -->
+<div class="start-screen" id="startScreen">
+  <div class="start-inner">
+    <div class="start-logo">
+      <svg viewBox="0 0 120 120" class="logo-svg" xmlns="http://www.w3.org/2000/svg">
+        <!-- Candle -->
+        <rect x="54" y="60" width="12" height="28" rx="2" fill="#cdbb8d"/>
+        <rect x="56" y="58" width="8" height="4" rx="1" fill="#b8a070"/>
+        <!-- Flame -->
+        <ellipse cx="60" cy="52" rx="5" ry="8" fill="#f5c842" opacity=".9"/>
+        <ellipse cx="60" cy="53" rx="3" ry="5" fill="#fff" opacity=".6"/>
+        <!-- Candle glow -->
+        <circle cx="60" cy="54" r="22" fill="#f5c842" opacity=".07"/>
+        <!-- Magnifying glass -->
+        <circle cx="38" cy="72" r="16" fill="none" stroke="#c9a227" stroke-width="3.5"/>
+        <circle cx="38" cy="72" r="11" fill="rgba(201,162,39,.12)"/>
+        <line x1="50" y1="84" x2="64" y2="98" stroke="#c9a227" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Papers -->
+        <rect x="60" y="78" width="36" height="26" rx="2" fill="#e6d9b8" stroke="#cdbb8d" stroke-width="1.5" transform="rotate(-8,78,91)"/>
+        <rect x="63" y="81" width="36" height="26" rx="2" fill="#f2e8cf" stroke="#cdbb8d" stroke-width="1.5" transform="rotate(-3,81,94)"/>
+        <rect x="65" y="84" width="36" height="26" rx="2" fill="#e6d9b8" stroke="#cdbb8d" stroke-width="1.5"/>
+        <!-- Lines on paper -->
+        <line x1="69" y1="91" x2="96" y2="91" stroke="#cdbb8d" stroke-width="1"/>
+        <line x1="69" y1="96" x2="96" y2="96" stroke="#cdbb8d" stroke-width="1"/>
+        <line x1="69" y1="101" x2="88" y2="101" stroke="#cdbb8d" stroke-width="1"/>
+      </svg>
     </div>
-    <div class="stamp" id="caseStamp">CASE № ---</div>
-    <div class="header-btns">
-      <button class="hbtn" id="mapBtn"><img src="images/map.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('🗺️')"></button>
-      <button class="hbtn" id="rulesBtn"><img src="images/rules.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('📖')"></button>
-      <button class="hbtn" id="newGameBtn"><img src="images/folder.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('🗂️')"></button>
+    <h1 class="start-title" id="startTitle">Card Detective</h1>
+    <p class="start-subtitle" id="startSubtitle">Bureau of Secret Investigations</p>
+    <div class="start-buttons">
+      <button class="start-btn primary" id="menuStartBtn">
+        <span class="sbtn-icon">🔍</span>
+        <span class="sbtn-label" id="startBtnLabel">Begin Investigation</span>
+      </button>
+      <button class="start-btn" id="menuProfileBtn">
+        <span class="sbtn-icon">🎖️</span>
+        <span class="sbtn-label" id="profileBtnLabel">Detective Profile</span>
+      </button>
+      <button class="start-btn" id="menuArchiveBtn">
+        <span class="sbtn-icon">📂</span>
+        <span class="sbtn-label" id="archiveBtnLabel">Case Archive</span>
+      </button>
+    </div>
+    <div class="start-footer">
+      <button class="lang-mini" id="menuLangBtn">🌐</button>
+      <span class="version-dim" id="startVersion"></span>
     </div>
   </div>
-  <div class="briefing" id="briefing"></div>
-  <div class="turn-pressure" id="turnPressure"></div>
-</header>
-
-<main class="tab-content">
-  <section class="tab-panel active" id="tabSuspects">
-    <div class="suspects-grid" id="suspects"></div>
-  </section>
-  <section class="tab-panel" id="tabLog">
-    <div class="log" id="log"></div>
-  </section>
-  <section class="tab-panel" id="tabItems">
-    <div class="inventory-full" id="inventoryFull"></div>
-    <p class="inventory-hint" id="invHint"></p>
-  </section>
-</main>
-
-<div class="hand-dock">
-  <div class="hand-scroll" id="hand"></div>
-  <div class="deck-info" id="deckInfo"></div>
 </div>
 
-<!-- LOG FEED: latest entries flash on screen -->
-<div class="log-feed" id="logFeed" style="display:none"></div>
+<!-- ═══ GAME SCREEN ═══ -->
+<div class="game-screen hidden" id="gameScreen">
 
-<nav class="tab-bar">
-  <button class="tab-btn active" id="tbSuspects" onclick="switchTab('Suspects')">
-    <img class="tab-icon" src="images/detective.png" alt="">
-    <span class="tab-label" data-i18n="ui.tab_suspects">Suspects</span>
-  </button>
+  <header class="app-header" id="appHeader">
+    <div class="header-row1">
+      <button class="hbtn" id="backToMenuBtn" title="Menu">🏠</button>
+      <div class="brand-block">
+        <span class="brand-name" id="brandTitle">Card Detective</span>
+        <span class="version-tag" id="versionTag"></span>
+      </div>
+      <div class="stamp" id="caseStamp">CASE № ---</div>
+      <div class="header-btns">
+        <button class="hbtn" id="mapBtn"><img src="images/map.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('🗺️')"></button>
+        <button class="hbtn" id="rulesBtn"><img src="images/rules.png" class="hbtn-img" onerror="this.style.display='none';this.parentNode.append('📖')"></button>
+      </div>
+    </div>
+    <div class="briefing" id="briefing"></div>
+    <div class="victim-bio" id="victimBio"></div>
+    <div class="turn-pressure" id="turnPressure"></div>
+  </header>
 
-  <button class="tab-btn" id="tbLog" onclick="switchTab('Log')">
-    <img class="tab-icon" src="images/paper.png" alt="">
-    <span class="tab-label" data-i18n="ui.tab_log">Log</span>
-    <span class="tab-badge hidden" id="logBadge"></span>
-  </button>
+  <main class="tab-content">
+    <section class="tab-panel active" id="tabSuspects">
+      <div class="suspects-grid" id="suspects"></div>
+    </section>
+    <section class="tab-panel" id="tabLog">
+      <div class="log" id="log"></div>
+    </section>
+    <section class="tab-panel" id="tabItems">
+      <div class="inventory-full" id="inventoryFull"></div>
+      <p class="inventory-hint" id="invHint"></p>
+    </section>
+  </main>
 
-  <button class="tab-btn" id="tbItems" onclick="switchTab('Items')">
-    <img class="tab-icon" src="images/bag.png" alt="">
-    <span class="tab-label" data-i18n="ui.tab_items">Items</span>
-    <span class="tab-badge hidden" id="itemsBadge">0</span>
-  </button>
-</nav>
+  <div class="hand-dock">
+    <div class="hand-scroll" id="hand"></div>
+    <div class="deck-info" id="deckInfo"></div>
+  </div>
+  <div class="log-feed" id="logFeed" style="display:none"></div>
 
-<div class="rep-bar" id="repBar">
-  <span id="repStars"></span>
-  <span id="repStats"></span>
+  <nav class="tab-bar">
+    <button class="tab-btn active" id="tbSuspects" onclick="switchTab('Suspects')">
+      <span class="tab-icon">🕵️</span>
+      <span class="tab-label" data-i18n="ui.tab_suspects">Suspects</span>
+    </button>
+    <button class="tab-btn" id="tbLog" onclick="switchTab('Log')">
+      <span class="tab-icon">📝</span>
+      <span class="tab-label" data-i18n="ui.tab_log">Log</span>
+    </button>
+    <button class="tab-btn" id="tbItems" onclick="switchTab('Items')">
+      <span class="tab-icon">🎒</span>
+      <span class="tab-label" data-i18n="ui.tab_items">Items</span>
+      <span class="tab-badge hidden" id="itemsBadge">0</span>
+    </button>
+  </nav>
+
+  <div class="rep-bar" id="repBar">
+    <span id="repStars"></span>
+    <span id="repStats"></span>
+  </div>
+
 </div>
 
-<!-- SAVE MODAL -->
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- SAVE -->
 <div class="modal-overlay hidden" id="saveModal">
   <div class="modal-box">
     <h3 id="saveTitle">Unsolved Case Found</h3>
@@ -83,7 +136,7 @@
   </div>
 </div>
 
-<!-- LANGUAGE MODAL -->
+<!-- LANGUAGE -->
 <div class="modal-overlay hidden" id="langModal">
   <div class="modal-box">
     <h3>🌐 Select Language / Язык / Sprache</h3>
@@ -95,33 +148,60 @@
   </div>
 </div>
 
-<!-- DIFFICULTY MODAL -->
+<!-- DIFFICULTY -->
 <div class="modal-overlay hidden" id="difficultyModal">
   <div class="modal-box">
     <h3 id="diffTitle">New Case</h3>
     <p class="mono-sm" id="diffSubtitle">Choose difficulty:</p>
-
     <div class="difficulty-cards">
       <div class="diff-card" onclick="startWithDifficulty('easy')">
-        <img class="diff-icon" src="images/icons/had.png" alt="Rookie">
-        <div class="diff-name" id="diffEasyName">Rookie</div>
-        <div class="diff-desc" id="diffEasyDesc">30 turns</div>
+        <div class="diff-icon">🎩</div><div class="diff-name" id="diffEasyName">Rookie</div><div class="diff-desc" id="diffEasyDesc">30 turns</div>
       </div>
-
       <div class="diff-card featured" onclick="startWithDifficulty('normal')">
-        <img class="diff-icon" src="images/icons/detective.png" alt="Detective">
-        <div class="diff-name" id="diffNormalName">Detective</div>
-        <div class="diff-desc" id="diffNormalDesc">22 turns</div>
+        <div class="diff-icon">🔍</div><div class="diff-name" id="diffNormalName">Detective</div><div class="diff-desc" id="diffNormalDesc">22 turns</div>
       </div>
-
       <div class="diff-card" onclick="startWithDifficulty('hard')">
-        <img class="diff-icon" src="images/icons/stick.png" alt="Inspector">
-        <div class="diff-name" id="diffHardName">Inspector</div>
-        <div class="diff-desc" id="diffHardDesc">16 turns</div>
+        <div class="diff-icon">💀</div><div class="diff-name" id="diffHardName">Inspector</div><div class="diff-desc" id="diffHardDesc">16 turns</div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- PROFILE -->
+<div class="modal-overlay hidden" id="profileModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close="profileModal">✕</button>
+    <h3 id="profileTitle">Detective Profile</h3>
+    <div class="profile-body">
+      <div class="profile-avatar" id="profileAvatar">🕵️</div>
+      <div class="profile-name-row">
+        <label class="mono-sm" id="profileNameLabel">Detective Name</label>
+        <input class="profile-name-input" id="profileNameInput" maxlength="28" placeholder="Enter name...">
+        <button class="btn btn-accent btn-sm" id="profileSaveBtn">Save</button>
+      </div>
+      <div class="profile-rank-row">
+        <span class="profile-rank-icon" id="profileRankIcon">⭐</span>
+        <span class="profile-rank-text" id="profileRankText">Trainee</span>
+        <span class="profile-points" id="profilePoints">0 pts</span>
+      </div>
+      <div class="profile-progress-wrap">
+        <div class="profile-progress" id="profileProgress"><div class="profile-progress-fill" id="profileProgressFill"></div></div>
+        <div class="profile-progress-labels" id="profileProgressLabels"></div>
+      </div>
+      <div class="profile-stats" id="profileStats"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div class="modal-overlay hidden" id="archiveModal">
+  <div class="modal-box wide">
+    <button class="modal-close" data-close="archiveModal">✕</button>
+    <h3 id="archiveTitle">Case Archive</h3>
+    <div class="archive-list" id="archiveList"></div>
+  </div>
+</div>
+
 <!-- ITEM MODAL -->
 <div class="modal-overlay hidden" id="itemModal">
   <div class="modal-box">
@@ -134,7 +214,7 @@
   </div>
 </div>
 
-<!-- RULES MODAL -->
+<!-- RULES -->
 <div class="modal-overlay hidden" id="rulesModal">
   <div class="modal-box">
     <button class="modal-close" data-close="rulesModal">✕</button>
@@ -144,7 +224,7 @@
   </div>
 </div>
 
-<!-- ACCUSE MODAL -->
+<!-- ACCUSE -->
 <div class="modal-overlay hidden" id="accuseModal">
   <div class="modal-box">
     <button class="modal-close" data-close="accuseModal">✕</button>
@@ -153,17 +233,17 @@
     <div id="accuseList"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" data-close="accuseModal" data-i18n="ui.btn_cancel">Cancel</button>
-      <button class="btn btn-accent" id="confirmAccuseBtn" disabled data-i18n="ui.btn_confirm_accuse">Accuse</button>
+      <button class="btn btn-accent" id="confirmAccuseBtn" disabled>Accuse</button>
     </div>
   </div>
 </div>
 
-<!-- RESULT MODAL -->
+<!-- RESULT -->
 <div class="modal-overlay hidden" id="resultModal">
   <div class="modal-box" id="resultBox"></div>
 </div>
 
-<!-- MAP MODAL -->
+<!-- MAP -->
 <div class="modal-overlay hidden" id="mapModal">
   <div class="modal-box wide">
     <button class="modal-close" data-close="mapModal">✕</button>

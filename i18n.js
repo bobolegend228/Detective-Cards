@@ -709,3 +709,142 @@ function gv(lang, suspect){
 I18N.ru.ui.save_continue='Продолжить дело';I18N.ru.ui.save_new='Новое дело';I18N.ru.ui.save_title='📂 Найдено незакрытое дело';I18N.ru.ui.save_body='Хотите продолжить расследование или начать новое?';I18N.ru.ui.tab_suspects='Подозреваемые';I18N.ru.ui.tab_log='Журнал';I18N.ru.ui.tab_items='Предметы';I18N.ru.ui.inventory_hint='Предметы попадаются с уликами. Нажмите, чтобы применить.';
 I18N.en.ui.save_continue='Continue Case';I18N.en.ui.save_new='New Case';I18N.en.ui.save_title='📂 Unsolved Case Found';I18N.en.ui.save_body='Continue the investigation or start a new case?';I18N.en.ui.tab_suspects='Suspects';I18N.en.ui.tab_log='Log';I18N.en.ui.tab_items='Items';I18N.en.ui.inventory_hint='Items appear when searching for clues. Tap to use.';
 I18N.de.ui.save_continue='Fall fortsetzen';I18N.de.ui.save_new='Neuer Fall';I18N.de.ui.save_title='📂 Offener Fall gefunden';I18N.de.ui.save_body='Ermittlung fortsetzen oder neuen Fall beginnen?';I18N.de.ui.tab_suspects='Verdächtige';I18N.de.ui.tab_log='Protokoll';I18N.de.ui.tab_items='Gegenstände';I18N.de.ui.inventory_hint='Gegenstände erscheinen beim Suchen nach Hinweisen. Tippen zum Verwenden.';
+
+/* ================================================================
+   beta 6.0 — новые строки
+   ================================================================ */
+
+// ---- РУССКИЙ ----
+Object.assign(I18N.ru.ui, {
+  // Стартовое меню
+  menu_start:      'Начать расследование',
+  menu_profile:    'Профиль детектива',
+  menu_archive:    'Архив дел',
+  menu_subtitle:   'Бюро тайных расследований',
+  // Профиль
+  profile_title:   'Профиль детектива',
+  profile_name_label: 'Имя детектива',
+  profile_name_placeholder: 'Введите имя...',
+  profile_save:    'Сохранить',
+  profile_rank:    'Звание',
+  profile_points:  'Очки',
+  profile_solved:  'Дел раскрыто',
+  profile_failed:  'Дел провалено',
+  profile_streak:  'Лучшая серия',
+  // Архив
+  archive_title:   'Архив дел',
+  archive_empty:   'Архив пуст — раскройте первое дело.',
+  archive_solved:  'Раскрыто',
+  archive_failed:  'Провалено',
+  archive_cards:   'карт сыграно',
+  // Связи
+  rel_loves:       '{a} тайно влюблён(а) в {b}',
+  rel_debt:        '{a} задолжал(а) крупную сумму жертве',
+  rel_rivals:      '{a} и {b} — давние соперники',
+  rel_friends:     '{a} и {b} — близкие друзья',
+  rel_secret:      '{a} знает компрометирующий секрет {b}',
+  rel_chip_loves:  '❤️ влюблён(а) в {b}',
+  rel_chip_debt:   '💰 должник жертвы',
+  rel_chip_rivals: '⚔️ соперник(ца) {b}',
+  rel_chip_friends:'🤝 друг {b}',
+  rel_chip_secret: '🤫 знает секрет {b}',
+  // Ранги
+  rank_0: 'Стажёр', rank_1: 'Детектив', rank_2: 'Инспектор', rank_3: 'Комиссар', rank_4: 'Легенда',
+});
+// предыстории жертв (ru) — индекс соответствует VICTIMS массиву
+I18N.ru.victimBios = [
+  'Лорд Эштон-Кэрр слыл человеком холодным и расчётливым — его состояние нажито на сомнительных сделках. Многие в доме его боялись, немногие — уважали.',
+  'Чарльз Уитмор сделал своё состояние на банковских спекуляциях. Говорят, за каждым его успехом стоит чья-то разрушенная жизнь.',
+  'Бьянка Россетти блистала на сценах всей Европы. За улыбкой примадонны скрывались жёсткие требования и острый язык.',
+  'Артур Пембрук собирал редкости со всего света — и людей, и предметы. Его коллекция стоила целое состояние, а методы приобретения вызывали споры.',
+  'Мадам Деверо была вдовой трижды — и каждый раз выходила из трагедии богаче. Её обаянию мало кто мог противостоять.',
+  'Профессор Бергман знал слишком много о слишком многих. Его исследования задевали интересы людей влиятельных и беспощадных.',
+  'Себастьян Кросс держал в руках долги половины города. Он улыбался всем одинаково — и должникам, и кредиторам.',
+  'Камилла Лавэлль играла роли на сцене и за её пределами. Никто не знал, где заканчивался образ и начиналась она сама.',
+];
+
+// ---- ENGLISH ----
+Object.assign(I18N.en.ui, {
+  menu_start:      'Begin Investigation',
+  menu_profile:    'Detective Profile',
+  menu_archive:    'Case Archive',
+  menu_subtitle:   'Bureau of Secret Investigations',
+  profile_title:   'Detective Profile',
+  profile_name_label: 'Detective Name',
+  profile_name_placeholder: 'Enter name...',
+  profile_save:    'Save',
+  profile_rank:    'Rank',
+  profile_points:  'Points',
+  profile_solved:  'Cases Solved',
+  profile_failed:  'Cases Failed',
+  profile_streak:  'Best Streak',
+  archive_title:   'Case Archive',
+  archive_empty:   'Archive is empty — solve your first case.',
+  archive_solved:  'Solved',
+  archive_failed:  'Failed',
+  archive_cards:   'cards played',
+  rel_loves:       '{a} is secretly in love with {b}',
+  rel_debt:        '{a} owed a large sum to the victim',
+  rel_rivals:      '{a} and {b} are long-time rivals',
+  rel_friends:     '{a} and {b} are close friends',
+  rel_secret:      '{a} knows a compromising secret about {b}',
+  rel_chip_loves:  '❤️ in love with {b}',
+  rel_chip_debt:   '💰 debtor of victim',
+  rel_chip_rivals: '⚔️ rivals with {b}',
+  rel_chip_friends:'🤝 friends with {b}',
+  rel_chip_secret: '🤫 knows {b}\'s secret',
+  rank_0: 'Trainee', rank_1: 'Detective', rank_2: 'Inspector', rank_3: 'Commissioner', rank_4: 'Legend',
+});
+I18N.en.victimBios = [
+  'Lord Ashton-Carr was known as a cold and calculating man — his fortune built on questionable dealings. Many in the house feared him; few respected him.',
+  'Charles Whitmore made his fortune through banking speculation. They say every success of his came at the cost of someone else\'s ruin.',
+  'Bianca Rossetti dazzled on stages across Europe. Behind the prima donna\'s smile lay exacting demands and a razor-sharp tongue.',
+  'Arthur Pembrook collected rarities from around the world — people and objects alike. His collection was worth a fortune; his methods of acquisition were disputed.',
+  'Madame Devereaux had been widowed three times — and each time emerged from tragedy wealthier. Few could resist her charm.',
+  'Professor Bergmann knew too much about too many people. His research touched the interests of powerful and merciless individuals.',
+  'Sebastian Cross held the debts of half the city in his hands. He smiled equally at debtors and creditors alike.',
+  'Camilla Lavelle played roles on stage and off it. No one knew where the character ended and she began.',
+];
+
+// ---- DEUTSCH ----
+Object.assign(I18N.de.ui, {
+  menu_start:      'Ermittlung beginnen',
+  menu_profile:    'Detektivprofil',
+  menu_archive:    'Fallarchiv',
+  menu_subtitle:   'Büro für geheime Ermittlungen',
+  profile_title:   'Detektivprofil',
+  profile_name_label: 'Name des Detektivs',
+  profile_name_placeholder: 'Name eingeben...',
+  profile_save:    'Speichern',
+  profile_rank:    'Rang',
+  profile_points:  'Punkte',
+  profile_solved:  'Gelöste Fälle',
+  profile_failed:  'Gescheiterte Fälle',
+  profile_streak:  'Beste Serie',
+  archive_title:   'Fallarchiv',
+  archive_empty:   'Archiv leer — lösen Sie Ihren ersten Fall.',
+  archive_solved:  'Gelöst',
+  archive_failed:  'Gescheitert',
+  archive_cards:   'Karten gespielt',
+  rel_loves:       '{a} ist heimlich in {b} verliebt',
+  rel_debt:        '{a} schuldete dem Opfer eine große Summe',
+  rel_rivals:      '{a} und {b} sind langjährige Rivalen',
+  rel_friends:     '{a} und {b} sind enge Freunde',
+  rel_secret:      '{a} kennt ein kompromittierendes Geheimnis über {b}',
+  rel_chip_loves:  '❤️ verliebt in {b}',
+  rel_chip_debt:   '💰 Schuldner des Opfers',
+  rel_chip_rivals: '⚔️ Rivale von {b}',
+  rel_chip_friends:'🤝 Freund von {b}',
+  rel_chip_secret: '🤫 kennt {b}s Geheimnis',
+  rank_0: 'Anwärter', rank_1: 'Detektiv', rank_2: 'Inspektor', rank_3: 'Kommissar', rank_4: 'Legende',
+});
+I18N.de.victimBios = [
+  'Lord Ashton-Carr galt als kalt und berechnend — sein Vermögen durch fragwürdige Geschäfte erworben. Viele im Haus fürchteten ihn; wenige respektierten ihn.',
+  'Charles Whitmore machte sein Vermögen durch Bankspekulationen. Man sagt, hinter jedem Erfolg stand jemandes Ruin.',
+  'Bianca Rossetti begeisterte Bühnen ganz Europas. Hinter dem Lächeln der Primadonna verbargen sich harte Forderungen und eine scharfe Zunge.',
+  'Arthur Pembrook sammelte Raritäten aus aller Welt — Menschen und Gegenstände gleichermaßen. Seine Sammlung war ein Vermögen wert; seine Methoden umstritten.',
+  'Madame Devereaux war dreimal Witwe — und jedes Mal kam sie reicher aus der Tragödie hervor. Ihrem Charme konnten nur wenige widerstehen.',
+  'Professor Bergmann wusste zu viel über zu viele Menschen. Seine Forschungen berührten die Interessen mächtiger und gnadenloser Personen.',
+  'Sebastian Cross hielt die Schulden halber Stadt in seinen Händen. Er lächelte Schuldner und Gläubiger gleich an.',
+  'Camilla Lavelle spielte Rollen auf der Bühne und dahinter. Niemand wusste, wo die Figur endete und sie selbst begann.',
+];
