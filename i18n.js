@@ -848,3 +848,22 @@ I18N.de.victimBios = [
   'Sebastian Cross hielt die Schulden halber Stadt in seinen Händen. Er lächelte Schuldner und Gläubiger gleich an.',
   'Camilla Lavelle spielte Rollen auf der Bühne und dahinter. Niemand wusste, wo die Figur endete und sie selbst begann.',
 ];
+
+/* beta 6.0 — settings strings */
+I18N.ru.ui.menu_settings   = 'Настройки';
+I18N.ru.ui.settings_title  = 'Настройки';
+I18N.ru.ui.settings_wip    = '🔧 Этот раздел находится в разработке.\nСледите за обновлениями!';
+I18N.ru.ui.settings_close  = 'Понятно';
+I18N.ru.ui.lang_change     = 'Сменить язык';
+
+I18N.en.ui.menu_settings   = 'Settings';
+I18N.en.ui.settings_title  = 'Settings';
+I18N.en.ui.settings_wip    = '🔧 This section is under development.\nStay tuned for updates!';
+I18N.en.ui.settings_close  = 'Got it';
+I18N.en.ui.lang_change     = 'Change Language';
+
+I18N.de.ui.menu_settings   = 'Einstellungen';
+I18N.de.ui.settings_title  = 'Einstellungen';
+I18N.de.ui.settings_wip    = '🔧 Dieser Bereich ist in Entwicklung.\nBleiben Sie dran!';
+I18N.de.ui.settings_close  = 'Verstanden';
+I18N.de.ui.lang_change     = 'Sprache ändern';

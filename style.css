@@ -290,3 +290,26 @@ body{background:#0f0d0a;color:#ece4d3;font-family:Georgia,'Times New Roman',seri
   .brand-name{font-size:1.1rem;}
   .start-title{font-size:2.1rem;}
 }
+
+/* ---- SETTINGS MODAL ---- */
+.settings-wip {
+  background: #f2e8cf;
+  border-radius: 10px;
+  padding: 22px 18px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: .88rem;
+  line-height: 1.7;
+  color: #5a4d33;
+  white-space: pre-line;
+  margin: 10px 0 16px;
+  border: 2px dashed var(--paper-dark);
+}
+.settings-lang-row {
+  margin-bottom: 4px;
+}
+.settings-lang-btn {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}

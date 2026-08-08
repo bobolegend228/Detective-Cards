@@ -13,6 +13,10 @@ const GAME_VERSION='beta 6.0';
 const SAVE_KEY='detective_save_v5';
 const PROFILE_KEY='detective_profile_v6';
 const ARCHIVE_KEY='detective_archive_v6';
+const LANG_KEY='detective_lang';
+
+function savedLang(){ try{ return localStorage.getItem(LANG_KEY)||null; }catch(_){ return null; } }
+function persistLang(lang){ try{ localStorage.setItem(LANG_KEY,lang); }catch(_){} }
 
 function T(key,vars){return t(state.lang||'ru',key,vars);}
 function GV(s){return gv(state.lang||'ru',s);}
@@ -342,8 +346,12 @@ function drawCard(){if(!state.deck.length)return false;state.hand.push({id:cardU
    GAME FLOW
 ════════════════════════════════════════════ */
 function setLanguage(lang){
-  state.lang=lang;closeModal('langModal');renderStartMenu();renderAllModalsText();
-  openModal('difficultyModal');
+  state.lang=lang;
+  persistLang(lang);
+  closeModal('langModal');
+  closeModal('settingsModal');
+  renderStartMenu();
+  renderAllModalsText();
 }
 function startWithDifficulty(diff){
   state.difficulty=diff;clearSave();closeModal('difficultyModal');newGame();
@@ -676,8 +684,7 @@ function renderStartMenu(){
   const st=document.getElementById('startTitle');if(st)st.textContent=titles[lang]||titles.en;
   const ss=document.getElementById('startSubtitle');if(ss)ss.textContent=T('ui.menu_subtitle');
   const sb=document.getElementById('startBtnLabel');if(sb)sb.textContent=T('ui.menu_start');
-  const pb=document.getElementById('profileBtnLabel');if(pb)pb.textContent=T('ui.menu_profile');
-  const ab=document.getElementById('archiveBtnLabel');if(ab)ab.textContent=T('ui.menu_archive');
+  const setb=document.getElementById('settingsBtnLabel');if(setb)setb.textContent=T('ui.menu_settings');
   const sv=document.getElementById('startVersion');if(sv)sv.textContent=GAME_VERSION;
 }
 
@@ -705,6 +712,10 @@ function renderAllModalsText(){
   const pni=document.getElementById('profileNameInput');if(pni)pni.placeholder=T('ui.profile_name_placeholder');
   const psb=document.getElementById('profileSaveBtn');if(psb)psb.textContent=T('ui.profile_save');
   const arT=document.getElementById('archiveTitle');if(arT)arT.textContent=T('ui.archive_title');
+  const setT=document.getElementById('settingsTitle');if(setT)setT.textContent=T('ui.settings_title');
+  const setW=document.getElementById('settingsWip');if(setW)setW.textContent=T('ui.settings_wip');
+  const setC=document.getElementById('settingsCloseBtn');if(setC)setC.textContent=T('ui.settings_close');
+  const setL=document.getElementById('settingsLangLabel');if(setL)setL.textContent=T('ui.lang_change');
   if(TG?.MainButton)TG.MainButton.setText(T('ui.btn_accuse'));
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=T(el.dataset.i18n);});
 }
@@ -793,8 +804,8 @@ function finalizeAccusation(id,auto){
       <button class="btn btn-accent" id="restartBtn2">${T('ui.result_new_game')}</button>
       <button class="btn btn-ghost" id="resultMenuBtn">🏠 ${state.lang==='de'?'Hauptmenü':state.lang==='en'?'Main Menu':'Главное меню'}</button>
     </div>`;
-  document.getElementById('restartBtn2').addEventListener('click',()=>{closeModal('resultModal');if(TG?.MainButton)TG.MainButton.hide();openModal('difficultyModal');});
-  document.getElementById('resultMenuBtn').addEventListener('click',()=>{closeModal('resultModal');if(TG?.MainButton)TG.MainButton.hide();goToStartMenu();});
+  document.getElementById('restartBtn2').addEventListener('click',()=>{ closeModal('resultModal'); if(TG?.MainButton)TG.MainButton.hide(); openModal('difficultyModal'); });
+  document.getElementById('resultMenuBtn').addEventListener('click',()=>{ closeModal('resultModal'); if(TG?.MainButton)TG.MainButton.hide(); goToStartMenu(); });
   openModal('resultModal');
   if(TG?.MainButton)TG.MainButton.hide();
 }
@@ -817,12 +828,12 @@ document.addEventListener('click',e=>{
 // Start menu buttons
 bind('menuStartBtn','click',()=>{
   haptic.light();
-  if(hasSave()){openModal('saveModal');}
-  else{openModal('langModal');}
+  if(hasSave()){ openModal('saveModal'); }
+  else{ openModal('difficultyModal'); }
 });
-bind('menuProfileBtn','click',()=>{haptic.light();openProfileModal();});
-bind('menuArchiveBtn','click',()=>{haptic.light();openArchiveModal();});
-bind('menuLangBtn','click',()=>{haptic.light();openModal('langModal');});
+bind('menuSettingsBtn','click',()=>{ haptic.light(); renderAllModalsText(); openModal('settingsModal'); });
+bind('menuLangBtn','click',()=>{ haptic.light(); openModal('langModal'); });
+bind('settingsLangBtn','click',()=>{ closeModal('settingsModal'); openModal('langModal'); });
 bind('backToMenuBtn','click',()=>{haptic.light();goToStartMenu();});
 
 // Game buttons
@@ -834,10 +845,10 @@ bind('confirmAccuseBtn','click',confirmAccuse);
 bind('saveContinueBtn','click',()=>{
   const ok=loadSave();
   closeModal('saveModal');
-  if(ok){showScreen('game');renderAll();renderAllModalsText();}
-  else{openModal('langModal');}
+  if(ok){ showScreen('game'); renderAll(); renderAllModalsText(); }
+  else{ openModal('difficultyModal'); }
 });
-bind('saveNewBtn','click',()=>{clearSave();closeModal('saveModal');openModal('langModal');});
+bind('saveNewBtn','click',()=>{ clearSave(); closeModal('saveModal'); openModal('difficultyModal'); });
 
 // Profile save
 bind('profileSaveBtn','click',()=>{
@@ -863,8 +874,27 @@ if(TG?.MainButton){
 window.addEventListener('resize',updateLayoutVars);
 
 /* ---- STARTUP ---- */
-// Detect saved language
-try{const r=localStorage.getItem(SAVE_KEY);if(r){const s=JSON.parse(r);if(s.lang)state.lang=s.lang;}}catch(_){}
+// 1. Determine language — from localStorage or detect from Telegram/browser
+(()=>{
+  const saved = savedLang();
+  if(saved){
+    state.lang = saved;
+  } else {
+    // Auto-detect from Telegram or browser language
+    const tgLang = TG?.initDataUnsafe?.user?.language_code;
+    const browserLang = navigator.language?.slice(0,2);
+    const detected = tgLang || browserLang || 'en';
+    state.lang = ['ru','en','de'].includes(detected) ? detected : 'en';
+    // Don't persist yet — show lang modal so user confirms
+  }
+})();
+
 renderStartMenu();
 showScreen('start');
+
+// 2. If language was never chosen → show lang selection first (once)
+if(!savedLang()){
+  openModal('langModal');
+}
+
 setTimeout(updateLayoutVars,200);

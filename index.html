@@ -43,13 +43,9 @@
         <span class="sbtn-icon">🔍</span>
         <span class="sbtn-label" id="startBtnLabel">Begin Investigation</span>
       </button>
-      <button class="start-btn" id="menuProfileBtn">
-        <span class="sbtn-icon">🎖️</span>
-        <span class="sbtn-label" id="profileBtnLabel">Detective Profile</span>
-      </button>
-      <button class="start-btn" id="menuArchiveBtn">
-        <span class="sbtn-icon">📂</span>
-        <span class="sbtn-label" id="archiveBtnLabel">Case Archive</span>
+      <button class="start-btn" id="menuSettingsBtn">
+        <span class="sbtn-icon">⚙️</span>
+        <span class="sbtn-label" id="settingsBtnLabel">Settings</span>
       </button>
     </div>
     <div class="start-footer">
@@ -132,6 +128,21 @@
     <div class="modal-actions col">
       <button class="btn btn-accent" id="saveContinueBtn">Continue</button>
       <button class="btn btn-ghost"  id="saveNewBtn">New Case</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS (WIP) -->
+<div class="modal-overlay hidden" id="settingsModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close="settingsModal">✕</button>
+    <h3 id="settingsTitle">Settings</h3>
+    <div class="settings-wip" id="settingsWip"></div>
+    <div class="settings-lang-row">
+      <button class="btn btn-ghost settings-lang-btn" id="settingsLangBtn">🌐 <span id="settingsLangLabel">Change Language</span></button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-accent" data-close="settingsModal" id="settingsCloseBtn">Got it</button>
     </div>
   </div>
 </div>
